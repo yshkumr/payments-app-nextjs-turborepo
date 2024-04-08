@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id                      String @id @default(uuid())
+  name                    String
+  email                   String @unique
+  number                  String @unique
+  password                String
+  Balance                 Balance[]
+  sentTransfers           P2pTransfer[] @relation(name: "FromUserRelation")
+  receivedTransfers       P2pTransfer[] @relation(name: "ToUserRelation")
+  OnRampTxn               OnRampTxn[]
+  createdAt               DateTime @default(now())
+}
+
+model Balance{
+  id                      String @id @default(uuid())
+  amount                  Int
+  locked                  Int
+  userId                  String @unique
+  user                    User  @relation(fields: [userId], references: [id])
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+}
+
+model P2pTransfer{
+  id                      String @id @default(uuid())
+  amount                  Int
+  toUserId                String
+  toUser                  User @relation(name: "ToUserRelation" ,fields: [toUserId], references: [id])
+  fromUserId              String
+  fromUser                User @relation(name: "FromUserRelation" ,fields: [fromUserId], references: [id])
+  createdAt               DateTime @default(now())
+}
+
+model OnRampTxn{
+  id                      String @id @default(uuid())
+  status                  OnRampStatus
+  amount                  Int
+  provider                String
+  token                   String @unique
+  userId                  String
+  user                    User @relation(fields: [userId], references: [id])
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+}
+
+enum OnRampStatus{
+  Failure
+  Success
+  Processing
+}
