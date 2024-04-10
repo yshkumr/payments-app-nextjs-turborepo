@@ -36,6 +36,7 @@ export default function SignInComponent() {
               emailOrPhone: e.target.value,
             });
           }}
+          width="[450px]"
           label="Email or Phone"
         />
         <LabelledInput

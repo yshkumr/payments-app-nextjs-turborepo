@@ -59,7 +59,7 @@ export default async function Dashboard() {
           </div>
 
           <p className="text-2xl mt-5 text-[#413ce6] font-bold">
-            Balance : {userDetails.amount / 100}
+            Balance: {userDetails.amount ? userDetails.amount / 100 : 0}
           </p>
         </div>
 

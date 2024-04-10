@@ -10,10 +10,7 @@ type SentTxn = {
 
 export const SentTxnComp = async ({ sentTxns }: { sentTxns: SentTxn[] }) => {
   return (
-    <Card
-      title="Received"
-      className={"border w-1/3 border-black p-4 rounded-md"}
-    >
+    <Card title="Sent" className={"border w-1/3 border-black p-4 rounded-md"}>
       <div className="mt-2 flex flex-col gap-2">
         {sentTxns
           .reverse()

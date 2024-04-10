@@ -1,9 +1,8 @@
 import prisma from "@repo/db/clients";
 import { compare } from "bcrypt";
-import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions: AuthOptions = {
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -40,7 +39,7 @@ export const authOptions: AuthOptions = {
           name: existingUser.name,
           email: existingUser.email,
           phone: existingUser.number,
-        } as any;
+        };
       },
     }),
   ],
@@ -48,6 +47,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async session({ token, session }: any) {
       session.user.id = token.sub;
+
       return session;
     },
   },

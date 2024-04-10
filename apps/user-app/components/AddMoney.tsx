@@ -8,7 +8,6 @@ import { LabelledInput } from "./LabelledInput";
 import { createOnRampTxn } from "../app/lib/actions/createOnRampTxn";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-
 const SUPPORTED_BANKS = [
   {
     name: "HDFC Bank",
@@ -32,8 +31,7 @@ export const AddMoney = () => {
   const [provider, setProvider] = useState(SUPPORTED_BANKS[0]?.name || "");
 
   const [amount, setAmount] = useState("");
-
-  const session = useSession(); // Specify the type of session explicitly
+  const session = useSession() as any;
 
   return (
     <Card

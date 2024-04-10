@@ -46,6 +46,7 @@ export default function SignUpComponent() {
         <LabelledInput
           label="Name"
           placeholder="John Doe"
+          width="[450px]"
           onChange={(e) => {
             setSignUpData({
               ...signUpData,

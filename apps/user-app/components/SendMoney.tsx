@@ -34,7 +34,7 @@ export const SendMoney = () => {
         value={details.amount}
       />
       <Button
-        className="bg-black mt-5 text-white text-xl w-[98%] py-2 rounded-md"
+        className="bg-black mt-5 text-white text-xl w-full py-2 rounded-md"
         onClick={async () => {
           if (!details.amount || Number(details.amount) < 10) {
             return alert("Minimum amount to send is 10");
