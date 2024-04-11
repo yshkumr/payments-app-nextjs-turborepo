@@ -36,7 +36,18 @@ export default async function Dashboard() {
     },
   });
 
-  const successfullTxns = transactions.filter((t) => t.status === "Success");
+  const successfullTxns = transactions.filter(
+    (t: {
+      id: string;
+      status: string;
+      amount: number;
+      provider: string;
+      token: string;
+      userId: string;
+      createdAt: Date;
+      updatedAt: Date;
+    }) => t.status === "Success"
+  );
 
   return (
     <div className="mt-5 ml-10 flex justify-between  gap-5">
