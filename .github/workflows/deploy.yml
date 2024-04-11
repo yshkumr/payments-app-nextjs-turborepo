@@ -12,6 +12,9 @@ jobs:
       - name: Check Out Repo
         uses: actions/checkout@v2
 
+      - name: Prepare Dockerfile
+        run: cp ./docker/Dockerfile.user ./Dockerfile
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:
@@ -22,9 +25,21 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./docker/Dockerfile.user
+          file: ./Dockerfile
           push: true
           tags: yshkumr/payments-app:latest
 
       - name: Verify Pushed Image
         run: docker pull yshkumr/payments-app:latest
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            sudo docker pull yshkumr/payments-app:latest
+            sudo docker stop payments-app || true
+            sudo docker rm payments-app || true
+            sudo docker run -d --name payments-app -p 3005:3000 yshkumr/payments-app:latest
