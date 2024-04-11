@@ -19,18 +19,7 @@ export default async function () {
     },
   });
 
-  const successfullTxns = transactions.filter(
-    (t: {
-      id: string;
-      status: string;
-      amount: number;
-      provider: string;
-      token: string;
-      userId: string;
-      createdAt: Date;
-      updatedAt: Date;
-    }) => t.status === "Success"
-  );
+  const successfullTxns = transactions.filter((t) => t.status === "Success");
 
   const txns = await prisma.p2pTransfer.findMany({
     where: {
@@ -45,24 +34,8 @@ export default async function () {
     },
   });
 
-  const sentTxns = txns.filter(
-    (t: {
-      id: string;
-      amount: number;
-      toUserId: string;
-      fromUserId: string;
-      createdAt: Date;
-    }) => t.fromUserId === session.user?.id
-  );
-  const receivedTxns = txns.filter(
-    (t: {
-      id: string;
-      amount: number;
-      toUserId: string;
-      fromUserId: string;
-      createdAt: Date;
-    }) => t.toUserId === session.user?.id
-  );
+  const sentTxns = txns.filter((t) => t.fromUserId === session.user?.id);
+  const receivedTxns = txns.filter((t) => t.toUserId === session.user?.id);
 
   return (
     <div className="border border-black flex mx-auto max-w-[85%] mt-5 rounded-md flex-col">
