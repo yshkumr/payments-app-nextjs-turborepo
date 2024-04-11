@@ -36,7 +36,7 @@ export async function signUp({ name, email, phone, password }: SignUp) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    const response = await prisma.$transaction(async (db) => {
+    const response = await prisma.$transaction(async (db: any) => {
       const user = await db.user.create({
         data: {
           name,
